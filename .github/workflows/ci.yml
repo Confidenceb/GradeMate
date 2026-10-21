@@ -1,0 +1,29 @@
+name: GradeMate CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-and-build:
+    name: Validate files and build Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate application files
+        run: |
+          test -f index.html
+          test -f styles.css
+          test -f app.js
+          test -f Dockerfile
+          echo "All required files exist."
+
+      - name: Build Docker image
+        run: docker build -t unilag-grademate:ci .
