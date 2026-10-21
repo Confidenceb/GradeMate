@@ -13,36 +13,6 @@ jobs:
     name: Validate and build
     runs-on: ubuntu-latest
 
-  
-  publish-image:
-    name: Publish image to Docker Hub
-    runs-on: ubuntu-latest
-    needs: validate-and-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/unilag-grademate:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/unilag-grademate:${{ github.sha }}
-
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -57,11 +27,14 @@ jobs:
           test -f index.html
           test -f styles.css
           test -f app.js
+          test -f grade-utils.js
           test -f Dockerfile
           echo "All required files exist."
 
       - name: Check JavaScript syntax
-        run: node --check app.js
+        run: |
+          node --check app.js
+          node --check grade-utils.js
 
       - name: Run unit tests
         run: node --test
@@ -84,6 +57,7 @@ jobs:
           curl --fail --silent http://localhost:8080/ > /dev/null
           curl --fail --silent http://localhost:8080/styles.css > /dev/null
           curl --fail --silent http://localhost:8080/app.js > /dev/null
+          curl --fail --silent http://localhost:8080/grade-utils.js > /dev/null
 
           echo "Smoke test passed: GradeMate and its assets are being served."
 
