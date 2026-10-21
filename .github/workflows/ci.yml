@@ -1,4 +1,3 @@
-
 name: GradeMate CI
 
 on:
@@ -33,6 +32,9 @@ jobs:
 
       - name: Check JavaScript syntax
         run: node --check app.js
+
+      - name: Run unit tests
+        run: node --test
 
       - name: Build Docker image
         run: docker build -t unilag-grademate:ci .
