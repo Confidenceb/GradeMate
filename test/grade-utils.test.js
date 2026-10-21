@@ -1,7 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert/strict");
-
-require("../grade-utils.js");
+import test from "node:test";
+import assert from "node:assert/strict";
+import "../grade-utils.js";
 
 const { getGrade, validateCourseFields, calculateGpa } =
   globalThis.GradeMateUtils;
