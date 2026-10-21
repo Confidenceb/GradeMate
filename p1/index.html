@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f6f2" />
+    <meta
+      name="description"
+      content="Estimate your UNILAG semester GPA, one course at a time."
+    />
+    <title>GradeMate — your semester, clearer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="GradeMate home">
+          <span class="brand-mark" aria-hidden="true"
+            ><span></span><span></span><span></span><span></span
+          ></span>
+          <span>Grade<span class="brand-light">Mate</span></span>
+        </a>
+        <div class="topbar-right">
+          <span class="local-pill"
+            ><span class="status-dot"></span> Saved on this device</span
+          >
+          <button
+            class="icon-button"
+            id="theme-toggle"
+            type="button"
+            aria-label="Choose a page colour"
+            title="Choose a page colour"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 3a9 9 0 1 0 0 18h1.2a2.3 2.3 0 0 0 1.6-3.9 1.4 1.4 0 0 1 1-2.4H18a3 3 0 0 0 3-3c0-4.8-4-8.7-9-8.7Zm-4 10.2a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Zm2.1-4.1a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Zm4.2 0a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Zm2.1 4.1a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="intro" aria-labelledby="welcome-title">
+          <div class="intro-copy">
+            <p class="eyebrow">
+              <span class="eyebrow-line"></span> YOUR SEMESTER, CLEARER
+            </p>
+            <h1 id="welcome-title">
+              A little less guesswork.<br /><span>A lot more clarity.</span>
+            </h1>
+            <p class="intro-text">
+              Add your courses as you go. We’ll take care of the numbers, so you
+              can focus on what’s next.
+            </p>
+          </div>
+          <div class="intro-art" aria-hidden="true">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="spark spark-one">✳</div>
+            <div class="spark spark-two">✳</div>
+            <div class="art-card">
+              <span class="art-card-label">SEMESTER CHECK-IN</span
+              ><span class="art-card-number">5.0</span
+              ><span class="art-card-caption"
+                ><span class="art-dot"></span> One course at a time</span
+              >
+            </div>
+            <div class="art-chip">✦ &nbsp; You’ve got this</div>
+          </div>
+        </section>
+
+        <div
+          class="notice"
+          id="app-notice"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <section class="dashboard" aria-label="Semester GPA summary">
+          <article class="summary-card gpa-card">
+            <div class="card-topline">
+              <span class="summary-label">SEMESTER GPA</span
+              ><span class="estimate-tag"><span></span> ESTIMATE</span>
+            </div>
+            <div class="gpa-value" id="gpa-value">—<span>/ 5.00</span></div>
+            <p class="summary-note" id="gpa-note">
+              Add a course to get started
+            </p>
+            <div class="gpa-meter" aria-hidden="true">
+              <span id="gpa-meter-fill"></span>
+            </div>
+            <span class="card-decoration" aria-hidden="true">✳</span>
+          </article>
+          <article class="summary-card stat-card">
+            <div class="stat-icon units-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"
+                />
+                <path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20M8 7h8M8 10h5" />
+              </svg>
+            </div>
+            <span class="summary-label">TOTAL UNITS</span>
+            <strong class="stat-value" id="unit-total">0</strong>
+            <span class="stat-caption"
+              >across <span id="course-total">0</span> courses</span
+            >
+          </article>
+          <article class="summary-card stat-card progress-card">
+            <div class="stat-icon progress-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 19V5M4 19h17M8 15l4-4 3 2 5-7" />
+                <path d="M16 6h4v4" />
+              </svg>
+            </div>
+            <span class="summary-label">QUALITY POINTS</span>
+            <strong class="stat-value" id="quality-total">0</strong>
+            <span class="stat-caption">units × grade points</span>
+          </article>
+        </section>
+
+        <section class="course-panel" aria-labelledby="courses-title">
+          <div class="panel-heading">
+            <div>
+              <div class="section-kicker"><span></span> YOUR WORKSPACE</div>
+              <h2 id="courses-title">
+                Your courses<span class="count-badge" id="course-badge">0</span>
+              </h2>
+              <p class="panel-subtitle">Every mark tells part of your story.</p>
+            </div>
+            <button class="primary-button" id="add-course" type="button">
+              <span class="plus-icon">+</span> Add a course
+            </button>
+          </div>
+
+          <div class="course-head" aria-hidden="true">
+            <span>COURSE</span><span>CREDIT UNITS</span><span>SCORE / 100</span
+            ><span>GRADE</span><span></span>
+          </div>
+          <div id="course-list" class="course-list"></div>
+          <div class="empty-state" id="empty-state">
+            <div class="empty-illustration" aria-hidden="true">
+              <span class="empty-sheet"><i></i><i></i><i></i></span
+              ><span class="empty-spark">✳</span>
+            </div>
+            <h3>Your semester starts here</h3>
+            <p>Add your first course and see your GPA take shape.</p>
+            <button class="text-button" id="empty-add" type="button">
+              Add your first course <span aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <div class="panel-footer" id="panel-footer" hidden>
+            <span class="footer-hint"
+              ><span class="hint-star">✳</span> Your changes save
+              automatically</span
+            >
+            <button class="reset-button" id="reset-courses" type="button">
+              Reset all courses
+            </button>
+          </div>
+        </section>
+
+        <section class="bottom-grid" aria-label="About GradeMate">
+          <article class="palette-card">
+            <div class="palette-copy">
+              <span class="palette-icon" aria-hidden="true">✳</span>
+              <div>
+                <h3>Make it feel like yours</h3>
+                <p>Pick a shade, or tap an open area to cycle through them.</p>
+              </div>
+            </div>
+            <div
+              class="swatches"
+              role="group"
+              aria-label="Page background colour"
+            >
+              <button
+                class="swatch swatch-sage"
+                type="button"
+                data-colour="sage"
+                aria-label="Sage green background"
+                aria-pressed="true"
+              ></button>
+              <button
+                class="swatch swatch-lilac"
+                type="button"
+                data-colour="lilac"
+                aria-label="Lilac background"
+                aria-pressed="false"
+              ></button>
+              <button
+                class="swatch swatch-peach"
+                type="button"
+                data-colour="peach"
+                aria-label="Peach background"
+                aria-pressed="false"
+              ></button>
+              <button
+                class="swatch swatch-sky"
+                type="button"
+                data-colour="sky"
+                aria-label="Sky blue background"
+                aria-pressed="false"
+              ></button>
+              <button
+                class="swatch swatch-cream"
+                type="button"
+                data-colour="cream"
+                aria-label="Cream background"
+                aria-pressed="false"
+              ></button>
+              <button
+                class="colour-reset"
+                id="reset-colour"
+                type="button"
+                aria-label="Reset background colour"
+                title="Reset background colour"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 12a8 8 0 1 0 2.3-5.6L4 8.5M4 4v4.5h4.5" />
+                </svg>
+              </button>
+            </div>
+          </article>
+          <article class="trust-card">
+            <span class="trust-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3 5 6v5c0 4.6 3 8.2 7 10 4-1.8 7-5.4 7-10V6l-7-3Z"
+                />
+                <path d="m9 12 2 2 4-4" /></svg
+            ></span>
+            <div>
+              <h3>Your data stays yours.</h3>
+              <p>
+                Courses are saved only in this browser on this device. Nothing
+                is sent to a server.
+              </p>
+            </div>
+          </article>
+        </section>
+
+        <details class="method-note">
+          <summary>
+            How this estimate works <span aria-hidden="true">＋</span>
+          </summary>
+          <div class="method-content">
+            <p>
+              GradeMate uses a provisional 5-point scale: A (70–100) = 5, B
+              (60–69) = 4, C (50–59) = 3, D (45–49) = 2, E (40–44) = 1, F (0–39)
+              = 0.
+            </p>
+            <p>
+              GPA = total of (course units × grade points) ÷ total included
+              units. Failed courses count as zero points and their units stay in
+              the total. Incomplete courses are left out until all fields are
+              entered.
+            </p>
+            <p>
+              <strong>This is an estimate, not an official result.</strong> The
+              published scale we found is from UNILAG Distance Learning
+              Institute materials; confirm your programme’s rules with your
+              faculty. Repeats, withdrawals, and excluded courses may be treated
+              differently. Leave out courses that should not count in your GPA.
+            </p>
+          </div>
+        </details>
+      </main>
+
+      <footer class="site-footer">
+        <span>Made for the next step. <span class="footer-heart">♥</span></span
+        ><span
+          >UNILAG GradeMate by OlaCloud
+          <span class="footer-separator">·</span> A student-built estimate</span
+        >
+      </footer>
+    </div>
+
+    <dialog
+      class="colour-dialog"
+      id="colour-dialog"
+      aria-labelledby="colour-dialog-title"
+    >
+      <div class="dialog-heading">
+        <div>
+          <span class="section-kicker"><span></span> PERSONALISE</span>
+          <h2 id="colour-dialog-title">Choose your colour</h2>
+        </div>
+        <button
+          class="dialog-close"
+          type="button"
+          aria-label="Close colour picker"
+        >
+          ×
+        </button>
+      </div>
+      <div
+        class="dialog-swatches"
+        role="group"
+        aria-label="Page background colour"
+      >
+        <button
+          class="swatch swatch-sage"
+          type="button"
+          data-colour="sage"
+          aria-label="Sage green background"
+          aria-pressed="true"
+        ></button>
+        <button
+          class="swatch swatch-lilac"
+          type="button"
+          data-colour="lilac"
+          aria-label="Lilac background"
+          aria-pressed="false"
+        ></button>
+        <button
+          class="swatch swatch-peach"
+          type="button"
+          data-colour="peach"
+          aria-label="Peach background"
+          aria-pressed="false"
+        ></button>
+        <button
+          class="swatch swatch-sky"
+          type="button"
+          data-colour="sky"
+          aria-label="Sky blue background"
+          aria-pressed="false"
+        ></button>
+        <button
+          class="swatch swatch-cream"
+          type="button"
+          data-colour="cream"
+          aria-label="Cream background"
+          aria-pressed="false"
+        ></button>
+        <button
+          class="colour-reset"
+          type="button"
+          data-dialog-reset
+          aria-label="Reset background colour"
+          title="Reset background colour"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12a8 8 0 1 0 2.3-5.6L4 8.5M4 4v4.5h4.5" />
+          </svg>
+        </button>
+      </div>
+      <p class="dialog-help">Your choice is saved on this device.</p>
+    </dialog>
+  </body>
+</html>
