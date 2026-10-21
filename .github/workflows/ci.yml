@@ -35,3 +35,21 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t unilag-grademate:ci .
+
+      - name: Smoke test Docker container
+        run: |
+          docker run -d --name grademate-test -p 8080:80 unilag-grademate:ci
+          trap 'docker rm -f grademate-test >/dev/null 2>&1 || true' EXIT
+
+          for attempt in {1..10}; do
+            if curl --fail --silent http://localhost:8080/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          curl --fail --silent http://localhost:8080/ > /dev/null
+          curl --fail --silent http://localhost:8080/styles.css > /dev/null
+          curl --fail --silent http://localhost:8080/app.js > /dev/null
+
+          echo "Smoke test passed: GradeMate and its assets are being served."
