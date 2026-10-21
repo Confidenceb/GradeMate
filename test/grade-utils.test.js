@@ -1,9 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import "../grade-utils.js";
 
-const { getGrade, validateCourseFields, calculateGpa } =
-  globalThis.GradeMateUtils;
+import {
+  getGrade,
+  validateCourseFields,
+  calculateGpa,
+} from "../grade-utils.js";
+
+// const { getGrade, validateCourseFields, calculateGpa } =
+//   globalThis.GradeMateUtils;
 
 test("grade boundaries follow the configured scale", () => {
   const cases = [

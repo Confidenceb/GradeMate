@@ -1,3 +1,4 @@
+import { getGrade, validateCourseFields, calculateGpa } from "./grade-utils.js";
 (() => {
   "use strict";
 
