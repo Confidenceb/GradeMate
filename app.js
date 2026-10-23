@@ -125,7 +125,7 @@ import { getGrade, validateCourseFields, calculateGpa } from "./grade-utils.js";
   }
 
   function validation(course) {
-    const result = GradeMateUtils.validateCourseFields(course);
+    const result = validateCourseFields(course);
     const code = course.code.trim();
 
     const duplicate =
@@ -245,7 +245,7 @@ import { getGrade, validateCourseFields, calculateGpa } from "./grade-utils.js";
   }
 
   function refreshSummary() {
-    const summary = GradeMateUtils.calculateGpa(state.courses);
+    const summary = calculateGpa(state.courses);
 
     const { units, points, completeCount, incompleteCount, gpa } = summary;
 
